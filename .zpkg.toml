@@ -21,5 +21,8 @@ include_readme = true
 tag_format = "v{version}"
 exclude = [".env", ".env.*", "node_modules/**", "target/**", "dist/**", "*.log", ".vendor/.zed/**"]
 
+[targets.repository]
+dir = "."
+
 [scripts]
 test = "bash scripts/test.sh"
