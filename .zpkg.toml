@@ -23,6 +23,3 @@ exclude = [".env", ".env.*", "node_modules/**", "target/**", "dist/**", "*.log",
 
 [scripts]
 test = "bash scripts/test.sh"
-
-[dependencies]
-"apostille-me/apme-interfaces" = "^0.1.0"
