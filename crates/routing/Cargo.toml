@@ -1,0 +1,9 @@
+[package]
+name = "apme-routing"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Deterministic routing helpers for Apostille Me"
+
+[dependencies]
+apme-contracts = { path = "../contracts" }

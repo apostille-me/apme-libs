@@ -1,0 +1,6 @@
+[package]
+name = "apme-contracts"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Core contracts for Apostille Me"
