@@ -62,5 +62,12 @@ mod tests {
         assert!(!valid_kind("CaseCreated"));
         assert!(!valid_kind("created"));
         assert!(!valid_kind("1case.created"));
+        assert!(valid_kind("case_record.created-v2"));
+        for invalid in [
+            ".case", "case.", "case..created", "case.1created", "Case.created",
+            "case. created",
+        ] {
+            assert!(!valid_kind(invalid), "accepted invalid namespace: {invalid}");
+        }
     }
 }
