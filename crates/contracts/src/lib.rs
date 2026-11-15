@@ -24,10 +24,31 @@ impl EventEnvelope {
 }
 
 pub fn valid_kind(value: &str) -> bool {
-    fn allowed(ch: char) -> bool { ch == '.' || ch.is_ascii_lowercase() || ch.is_ascii_digit() || ch == '_' || ch == '-' }
-    matches!(value.chars().next(), Some(first) if first == '.' || first.is_ascii_lowercase())
-        && value.chars().all(allowed)
-        && value.contains('.')
+    let mut parts = value.split('.');
+    let valid_part = |part: &str| {
+        matches!(part.as_bytes().first(), Some(b'a'..=b'z'))
+            && part.bytes().all(|byte| {
+                byte.is_ascii_lowercase()
+                    || byte.is_ascii_digit()
+                    || byte == b'_'
+                    || byte == b'-'
+            })
+    };
+
+    let Some(first) = parts.next() else {
+        return false;
+    };
+    if !valid_part(first) {
+        return false;
+    }
+    let mut has_namespace = false;
+    for part in parts {
+        has_namespace = true;
+        if !valid_part(part) {
+            return false;
+        }
+    }
+    has_namespace
 }
 
 pub const PRODUCT: &str = "apostille-me";
@@ -41,5 +62,12 @@ mod tests {
         assert!(!valid_kind("CaseCreated"));
         assert!(!valid_kind("created"));
         assert!(!valid_kind("1case.created"));
+        assert!(valid_kind("case_record.created-v2"));
+        for invalid in [
+            ".case", "case.", "case..created", "case.1created", "Case.created",
+            "case. created",
+        ] {
+            assert!(!valid_kind(invalid), "accepted invalid namespace: {invalid}");
+        }
     }
 }
