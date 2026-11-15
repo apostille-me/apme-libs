@@ -22,7 +22,7 @@ export function validateLead(input) {
 }
 
 export function makeEvent(type, payload = {}, meta = {}) {
-  if (!/^[a-z][a-z0-9_.-]+$/.test(type)) throw new TypeError('event type must be a namespaced lowercase identifier');
+  if (!/^[a-z][a-z0-9_-]*(?:\.[a-z][a-z0-9_-]*)+$/.test(type)) throw new TypeError('event type must be a namespaced lowercase identifier');
   return { id: meta.id || crypto.randomUUID(), type, payload, product: serviceCatalog.org, occurredAt: meta.occurredAt || new Date().toISOString() };
 }
 
